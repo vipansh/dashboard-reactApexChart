@@ -1,10 +1,32 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { ProductData } from "../../util/convertToProductDataInRange";
 import ReactApexChart from "react-apexcharts";
+import DialogToShowChar from "<components>/DialogToShowChar";
+import { DataType } from "../../data";
 
-type Props = { products: ProductData[]; dates: Date[] };
+type Props = {
+  products: ProductData[];
+  dates: Date[];
+  endDate: Date;
+  startDate: Date;
+  data: DataType[];
+};
 
-const BarGraph: React.FC<Props> = ({ products, dates }) => {
+const BarGraph: React.FC<Props> = ({
+  products,
+  dates,
+  data,
+  startDate,
+  endDate,
+}) => {
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const modalRef = useRef(null);
+
+  const openModal = () => {
+    if (modalRef.current) {
+      (modalRef.current as any).showModal();
+    }
+  };
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: "bar",
@@ -15,6 +37,13 @@ const BarGraph: React.FC<Props> = ({ products, dates }) => {
       },
       zoom: {
         enabled: true,
+      },
+      events: {
+        click: function (event, chartContext, config) {
+          console.log({ event, chartContext, config });
+          openModal();
+          setSelectedProduct(config.config.series[config.seriesIndex].name);
+        },
       },
     },
     responsive: [
@@ -81,6 +110,13 @@ const BarGraph: React.FC<Props> = ({ products, dates }) => {
         type="bar"
         height={550}
         width={500}
+      />
+      <DialogToShowChar
+        data={data}
+        startDate={startDate}
+        endDate={endDate}
+        productNames={selectedProduct ? [selectedProduct] : ["a"]}
+        modalRef={modalRef}
       />
     </div>
   );

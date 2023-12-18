@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { convertToProductDataInRange } from "../util/convertToProductDataInRange";
+import {
+  ProductData,
+  convertToProductDataInRange,
+} from "../util/convertToProductDataInRange";
 import BarGraph from "./barGraph/BarGraph";
-import Image from "next/image";
 
-import { data } from "../data";
-import LineChart from "./lineChart/LineChart";
-import { convertToOneProductDataInRange } from "../util/convertToOneProductDataInRange";
+import { DataType, data } from "../data";
 
-type Props = {};
-const ChartComponent = (props: Props) => {
+const ChartComponent = () => {
   const [selectedProducts, setSelectedProducts] = useState([
     "a",
     "b",
@@ -38,7 +37,7 @@ const ChartComponent = (props: Props) => {
   const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEndDate(new Date(event.target.value));
   };
-  console.log({ startDate, endDate });
+
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-lg ">
       {["a", "b", "c", "d", "e", "f"].map((product) => (
@@ -107,16 +106,9 @@ const ChartComponent = (props: Props) => {
               selectedProducts
             ).dates
           }
-        />
-        <LineChart
-          products={
-            convertToOneProductDataInRange(
-              data,
-              startDate,
-              endDate,
-              selectedProducts
-            ).product
-          }
+          startDate={startDate}
+          endDate={endDate}
+          data={data}
         />
       </div>
     </div>
