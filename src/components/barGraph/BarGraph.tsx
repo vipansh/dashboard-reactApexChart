@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { AggregateResult, ProductData } from "../../util/aggregateDataInRange";
+import { ProductData } from "../../util/convertToProductDataInRange";
 import ReactApexChart from "react-apexcharts";
 
 type Props = { products: ProductData[]; dates: Date[] };
 
 const BarGraph: React.FC<Props> = ({ products, dates }) => {
-  const [series, setSeries] = useState(products || []);
-  console.log({ products, dates });
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: "bar",
@@ -63,10 +61,10 @@ const BarGraph: React.FC<Props> = ({ products, dates }) => {
     <div id="chart" className="bg-white rounded-2xl p-2">
       <ReactApexChart
         options={options}
-        series={series}
+        series={products}
         type="bar"
         height={550}
-        width={1000}
+        width={500}
       />
     </div>
   );
