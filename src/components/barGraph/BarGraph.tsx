@@ -31,7 +31,7 @@ const BarGraph: React.FC<Props> = ({ products, dates }) => {
     ],
     plotOptions: {
       bar: {
-        horizontal: false,
+        horizontal: true,
         borderRadius: 10,
         dataLabels: {
           total: {
@@ -44,13 +44,30 @@ const BarGraph: React.FC<Props> = ({ products, dates }) => {
         },
       },
     },
+    stroke: {
+      width: 1,
+      colors: ["#fff"],
+    },
+    title: {
+      text: "Fiction Books Sales",
+    },
     xaxis: {
-      type: "datetime",
       categories: dates.map((date) => date.toISOString().split("T")[0]) || [],
+      labels: {
+        formatter: function (val) {
+          return val ;
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
     },
     legend: {
-      position: "right",
-      offsetY: 40,
+      position: "top",
+      horizontalAlign: "left",
+      offsetX: 40,
     },
     fill: {
       opacity: 1,
