@@ -12,27 +12,24 @@ const convertDate = (dateStr: string): Date => {
 
 const isDateInRange = (
   date: string,
-  startDate: string,
-  endDate: string
+  startDate: Date,
+  endDate: Date
 ): boolean => {
   const d = convertDate(date);
-  const startD = convertDate(startDate);
-  const endD = convertDate(endDate);
+  const startD = startDate;
+  const endD = endDate;
   return d >= startD && d <= endD;
 };
 
-export function convertToProductDataInRange(
+export const convertToProductDataInRange = (
   data: DataType[],
-  startDate: string,
-  endDate: string,
+  startDate: Date,
+  endDate: Date,
   productNames: string[]
-): { products: ProductData[]; dates: Date[] } {
-  // Filter data by date range
+): { products: ProductData[]; dates: Date[] } => {
   const filteredData = data.filter((d) =>
     isDateInRange(d.day, startDate, endDate)
   );
-
-  // Extract unique dates and sort them
 
   const dates = Array.from(
     new Set(filteredData.map((d) => convertDate(d.day).getTime()))
@@ -45,7 +42,6 @@ export function convertToProductDataInRange(
     data: [],
   }));
 
-  // Aggregate values for each product by date
   dates.forEach((date) => {
     const filteredByDateData = filteredData.filter(
       (d) => convertDate(d.day).getTime() === date.getTime()
