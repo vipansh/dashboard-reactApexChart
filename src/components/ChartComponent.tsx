@@ -4,6 +4,8 @@ import BarGraph from "./barGraph/BarGraph";
 import Image from "next/image";
 
 import { data } from "../data";
+import LineChart from "./lineChart/LineChart";
+import { convertToOneProductDataInRange } from "../util/convertToOneProductDataInRange";
 
 type Props = {};
 const ChartComponent = (props: Props) => {
@@ -21,7 +23,9 @@ const ChartComponent = (props: Props) => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     setSelectedProducts((prev) =>
-      checked ? [...prev, name].sort() : prev.filter((product) => product !== name).sort()
+      checked
+        ? [...prev, name].sort()
+        : prev.filter((product) => product !== name).sort()
     );
   };
 
@@ -102,6 +106,16 @@ const ChartComponent = (props: Props) => {
               endDate,
               selectedProducts
             ).dates
+          }
+        />
+        <LineChart
+          products={
+            convertToOneProductDataInRange(
+              data,
+              startDate,
+              endDate,
+              selectedProducts
+            ).product
           }
         />
       </div>

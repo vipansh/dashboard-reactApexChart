@@ -5,12 +5,12 @@ export type ProductData = {
   data: number[];
 };
 
-const convertDate = (dateStr: string): Date => {
+export const convertDate = (dateStr: string): Date => {
   const parts = dateStr.split("/");
   return new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
 };
 
-const isDateInRange = (
+export const isDateInRange = (
   date: string,
   startDate: Date,
   endDate: Date
@@ -56,4 +56,4 @@ export const convertToProductDataInRange = (
     });
   });
   return { products, dates };
-}
+};

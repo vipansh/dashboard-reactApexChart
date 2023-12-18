@@ -46,16 +46,15 @@ const BarGraph: React.FC<Props> = ({ products, dates }) => {
     },
     stroke: {
       width: 1,
-      colors: ["#fff"],
     },
     title: {
-      text: "Fiction Books Sales",
+      text: "Trent over time",
     },
     xaxis: {
       categories: dates.map((date) => date.toISOString().split("T")[0]) || [],
       labels: {
         formatter: function (val) {
-          return val ;
+          return val;
         },
       },
     },
