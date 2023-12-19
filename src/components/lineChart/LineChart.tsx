@@ -69,7 +69,7 @@ const LineChart: React.FC<Props> = ({ products }) => {
           },
         ]}
         height={550}
-        width={500}
+        width={400}
       />
     </div>
   );

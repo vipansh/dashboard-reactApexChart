@@ -1,3 +1,6 @@
+export type AgeType = "All" | "15-25" | ">25";
+export type GenderType = "All" | "Male" | "Female";
+
 export type DataType = {
   day: string;
   age: "15-25" | ">25";

@@ -1,63 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import {
   ProductData,
   convertToProductDataInRange,
 } from "../util/convertToProductDataInRange";
 import BarGraph from "./barGraph/BarGraph";
+import { AgeType, DataType, GenderType, data } from "../data";
+import Select from "./shared/Select";
 
-import { DataType, data } from "../data";
-
-const ChartComponent = () => {
-  const [selectedProducts, setSelectedProducts] = useState([
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-  ]);
+const ChartComponent: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(new Date("2022-10-03"));
   const [endDate, setEndDate] = useState<Date>(new Date("2022-10-29"));
+  const [age, setAge] = useState<AgeType>("All");
+  const [gender, setGender] = useState<GenderType>("All");
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setSelectedProducts((prev) =>
-      checked
-        ? [...prev, name].sort()
-        : prev.filter((product) => product !== name).sort()
-    );
-  };
-
-  const handleStartDateChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+  const handleDateChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    setDate: React.Dispatch<React.SetStateAction<Date>>
   ) => {
-    setStartDate(new Date(event.target.value));
+    setDate(new Date(event.target.value));
   };
 
-  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEndDate(new Date(event.target.value));
+  const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    handleDateChange(event, setStartDate);
   };
+
+  const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    handleDateChange(event, setEndDate);
+  };
+
+  const { products, dates } = convertToProductDataInRange(
+    data,
+    startDate,
+    endDate,
+    ["a", "b", "c", "d", "e", "f"],
+    age,
+    gender
+  );
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-lg ">
-      {["a", "b", "c", "d", "e", "f"].map((product) => (
-        <div key={product} className="flex items-center space-x-3">
-          <div className="form-control">
-            <label className="label cursor-pointer">
-              <span className="label-text mr-4">{product}</span>
-              <input
-                type="checkbox"
-                name={product}
-                checked={selectedProducts.includes(product)}
-                onChange={handleCheckboxChange}
-                id={product}
-                className="checkbox checkbox-primary checkbox-md"
-              />
-            </label>
-          </div>
-        </div>
-      ))}
-
+    <div className="bg-gray-100 p-6 rounded-lg shadow-lg">
       <div className="mt-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
@@ -81,31 +62,43 @@ const ChartComponent = () => {
           End Date
         </label>
         <input
-          className="input input-bordered input-primary w-full max-w-xs "
+          className="input input-bordered input-primary w-full max-w-xs"
           id="endDate"
           type="date"
           value={endDate.toISOString().substring(0, 10)}
           onChange={handleEndDateChange}
         />
       </div>
+      <div className="mt-4">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="age"
+        >
+          Age
+        </label>
+        <Select<AgeType>
+          options={["All", "15-25", ">25"]}
+          defaultOption="All"
+          onSelect={setAge}
+        />
+      </div>
+      <div className="mt-4">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="gender"
+        >
+          Gender
+        </label>
+        <Select<GenderType>
+          options={["All", "Male", "Female"]}
+          defaultOption="All"
+          onSelect={setGender}
+        />
+      </div>
       <div className="mt-6">
         <BarGraph
-          products={
-            convertToProductDataInRange(
-              data,
-              startDate,
-              endDate,
-              selectedProducts
-            ).products
-          }
-          dates={
-            convertToProductDataInRange(
-              data,
-              startDate,
-              endDate,
-              selectedProducts
-            ).dates
-          }
+          products={products}
+          dates={dates}
           startDate={startDate}
           endDate={endDate}
           data={data}
@@ -114,4 +107,5 @@ const ChartComponent = () => {
     </div>
   );
 };
+
 export default ChartComponent;

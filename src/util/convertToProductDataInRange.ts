@@ -1,4 +1,4 @@
-import { DataType } from "../data";
+import { AgeType, DataType, GenderType } from "../data";
 
 export type ProductData = {
   name: string;
@@ -25,11 +25,21 @@ export const convertToProductDataInRange = (
   data: DataType[],
   startDate: Date,
   endDate: Date,
-  productNames: string[]
+  productNames: string[],
+  age?: AgeType,
+  gender?: GenderType
 ): { products: ProductData[]; dates: Date[] } => {
-  const filteredData = data.filter((d) =>
+  let filteredData = data.filter((d) =>
     isDateInRange(d.day, startDate, endDate)
   );
+
+  if (age && age !== "All") {
+    filteredData = filteredData.filter((d) => d.age === age);
+  }
+
+  if (gender && gender !== "All") {
+    filteredData = filteredData.filter((d) => d.gender === gender);
+  }
 
   const dates = Array.from(
     new Set(filteredData.map((d) => convertDate(d.day).getTime()))
