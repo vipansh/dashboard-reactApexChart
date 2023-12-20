@@ -3,7 +3,7 @@ import {
   ProductData,
   convertToProductDataInRange,
 } from "../util/convertToProductDataInRange";
-import BarGraph from "./barGraph/BarGraph";
+import BarGraph from "./BarGraph/BarGraph";
 import { AgeType, DataType, GenderType, data } from "../data";
 import Select from "./shared/Select";
 

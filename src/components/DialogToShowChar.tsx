@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import LineChart from "./lineChart/LineChart";
+import LineChart from "./LineChart/LineChart";
 import { convertToOneProductDataInRange } from "../util/convertToOneProductDataInRange";
 import { DataType } from "../data";
 
