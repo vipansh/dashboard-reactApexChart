@@ -1,6 +1,7 @@
 "use client";
 
 import CardDataStats from "<components>/CardDataStats";
+import FilterButton from "<components>/FiltersButton";
 import React from "react";
 
 type Props = {};
@@ -94,7 +95,7 @@ const Dashboard = (props: Props) => {
           </svg>
         </CardDataStats>
       </div>
-
+      <FilterButton />
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         Chart1 chart2
         <div className="col-span-12 xl:col-span-8">wil show table</div>
