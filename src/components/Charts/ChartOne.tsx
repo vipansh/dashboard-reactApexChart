@@ -11,7 +11,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 const ChartOne: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date("2022-10-03"));
+  const [startDate, setStartDate] = useState<Date>(new Date("2022-10-21"));
   const [endDate, setEndDate] = useState<Date>(new Date("2022-10-29"));
   const [selectedProduct, setSelectedProduct] = useState("");
   const modalRef = useRef(null);
@@ -30,7 +30,6 @@ const ChartOne: React.FC = () => {
     "All",
     "All"
   );
-
   const options: ApexOptions = {
     legend: {
       position: "top",
