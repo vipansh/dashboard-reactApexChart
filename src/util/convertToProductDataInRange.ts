@@ -11,14 +11,11 @@ export const convertDate = (dateStr: string): Date => {
 };
 
 export const isDateInRange = (
-  date: string,
+  date: Date,
   startDate: Date,
   endDate: Date
 ): boolean => {
-  const d = convertDate(date);
-  const startD = startDate;
-  const endD = endDate;
-  return d >= startD && d <= endD;
+  return date >= startDate && date <= endDate;
 };
 
 export const convertToProductDataInRange = (
@@ -29,41 +26,30 @@ export const convertToProductDataInRange = (
   age?: AgeType,
   gender?: GenderType
 ): { products: ProductData[]; dates: Date[] } => {
-  let filteredData = data.filter((d) =>
-    isDateInRange(d.day, startDate, endDate)
+  const filteredData = data.filter((d) =>
+    isDateInRange(convertDate(d.day), startDate, endDate) &&
+    (!age || age === "All" || d.age === age) &&
+    (!gender || gender === "All" || d.gender === gender)
   );
 
-  if (age && age !== "All") {
-    filteredData = filteredData.filter((d) => d.age === age);
-  }
-
-  if (gender && gender !== "All") {
-    filteredData = filteredData.filter((d) => d.gender === gender);
-  }
-
-  const dates = Array.from(
-    new Set(filteredData.map((d) => convertDate(d.day).getTime()))
-  )
-    .map((t) => new Date(t))
-    .sort((a, b) => a.getTime() - b.getTime());
+  const uniqueDates = Array.from(
+    new Set(filteredData.map((d) => convertDate(d.day)))
+  ).sort((a, b) => a.getTime() - b.getTime());
 
   const products: ProductData[] = productNames.map((name) => ({
     name,
     data: [],
   }));
 
-  dates.forEach((date) => {
-    const filteredByDateData = filteredData.filter(
-      (d) => convertDate(d.day).getTime() === date.getTime()
-    );
-
+  uniqueDates.forEach((date) => {
     productNames.forEach((name, index) => {
-      const sum = filteredByDateData.reduce(
-        (acc, curr) => acc + (curr[name as keyof DataType] as number),
-        0
-      );
+      const sum = filteredData
+        .filter((d) => convertDate(d.day).getTime() === date.getTime())
+        .reduce((acc, curr) => acc + (curr[name as keyof DataType] as number), 0);
+
       products[index].data.push(sum);
     });
   });
-  return { products, dates };
+
+  return { products, dates: uniqueDates };
 };
