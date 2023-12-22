@@ -17,6 +17,7 @@ const FilterButton = () => {
         trigger.current.contains(target)
       )
         return;
+      console.log({ target });
       setDropdownOpen(false);
     };
     document.addEventListener("click", clickHandler);
@@ -72,9 +73,7 @@ const FilterButton = () => {
         {/* <!-- Dropdown Start --> */}
         <div
           ref={dropdown}
-          onFocus={() => setDropdownOpen(true)}
-          onBlur={() => setDropdownOpen(false)}
-          className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+          className={`absolute left-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
             dropdownOpen === true ? "block" : "hidden"
           }`}
         >

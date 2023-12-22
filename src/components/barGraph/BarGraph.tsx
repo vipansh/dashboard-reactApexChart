@@ -27,6 +27,7 @@ const BarGraph: React.FC<Props> = ({
       (modalRef.current as any).showModal();
     }
   };
+  
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: "bar",
@@ -103,7 +104,7 @@ const BarGraph: React.FC<Props> = ({
   };
 
   return (
-    <div id="chart" className="bg-white rounded-2xl p-2">
+    <div id="chart" className="-ml-5 h-[355px] w-[105%]">
       <ReactApexChart
         options={options}
         series={products}
