@@ -79,7 +79,14 @@ const ChartOne: React.FC = () => {
     },
 
     xaxis: {
-      categories: formattedChartData.dates.map(date => date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' })) || [],
+      categories:
+        formattedChartData.dates.map((date) =>
+          date.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "2-digit",
+          })
+        ) || [],
 
       axisBorder: {
         show: false,
@@ -131,6 +138,10 @@ const ChartOne: React.FC = () => {
           endDate={endDate}
           productNames={selectedProduct ? [selectedProduct] : ["a"]}
           modalRef={modalRef}
+          dates={formattedChartData.dates}
+          products={formattedChartData.series.find((data) => {
+            return data.name === selectedProduct;
+          })}
         />
       </div>
     </div>
