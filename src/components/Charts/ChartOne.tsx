@@ -2,9 +2,9 @@
 import { ApexOptions } from "apexcharts";
 import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { convertToProductDataInRange } from "../../util/convertToProductDataInRange";
 import { data } from "../../data";
 import DialogToShowChar from "<components>/DialogToShowChar";
+import { generateApexChartSeries } from "../../js/generateApexChartSeries";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -22,14 +22,10 @@ const ChartOne: React.FC = () => {
     }
   };
 
-  const { products, dates } = convertToProductDataInRange(
-    data,
-    startDate,
-    endDate,
-    ["a", "b", "c", "d", "e", "f"],
-    "All",
-    "All"
-  );
+  var date, products;
+
+  const formattedChartData = generateApexChartSeries(data, startDate, endDate);
+  console.log({ formattedChartData });
   const options: ApexOptions = {
     legend: {
       position: "top",
@@ -83,12 +79,8 @@ const ChartOne: React.FC = () => {
     },
 
     xaxis: {
-      categories: dates.map((date) => date.toISOString().split("T")[0]) || [],
-      labels: {
-        formatter: function (val) {
-          return val;
-        },
-      },
+      categories: formattedChartData.dates.map(date => date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' })) || [],
+
       axisBorder: {
         show: false,
       },
@@ -103,7 +95,7 @@ const ChartOne: React.FC = () => {
     },
     plotOptions: {
       bar: {
-        horizontal: true,
+        horizontal: false,
         borderRadius: 10,
         dataLabels: {
           total: {
@@ -122,13 +114,12 @@ const ChartOne: React.FC = () => {
   const isWindowAvailable = () => typeof window !== "undefined";
 
   if (!isWindowAvailable()) return <></>;
-  console.log({ products, options });
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
       <div id="chartOne" className="-ml-5 h-[355px] w-[105%]">
         <ReactApexChart
           options={options}
-          series={products || []}
+          series={formattedChartData.series || []}
           type="bar"
           width="100%"
           height="100%"

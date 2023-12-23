@@ -11,6 +11,7 @@ export type DataType = {
   d: number;
   e: number;
   f: number;
+  [key: string]: string | number | Date;
 };
 export const data: DataType[] = [
   {
