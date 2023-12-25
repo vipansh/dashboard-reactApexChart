@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "nvm use 21.4.0 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/d3-axis": "^3.0.6",
     "apexcharts": "^3.45.0",
     "class-variance-authority": "^0.7.0",
+    "dayjs": "^1.11.10",
     "next": "14.0.4",
     "react": "^18",
     "react-apexcharts": "^1.4.1",

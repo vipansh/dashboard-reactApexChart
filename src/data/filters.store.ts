@@ -22,15 +22,15 @@ const hashStorage: StateStorage = {
 };
 
 export const useStore = create<{
-  filters: { age: string, gender: string };
-  setFilters: (category: string, value: string) => void;
+  filters: { age: string, gender: string, startDate: Date, endDate: Date };
+  setFilters: (category: string, value: string | Date) => void;
 }>()(
   persist(
     (set) => ({
-      filters: { age: "All", gender: "All" },
+      filters: { age: "All", gender: "All", startDate: new Date(), endDate: new Date() },
       setFilters: (category, value) => {
         set((state) => ({ ...state, filters: { ...state.filters, [category]: value } }));
-        window.localStorage.setItem(category, value);
+        window.localStorage.setItem(category, JSON.stringify(value));
       }
     }),
     {
