@@ -1,18 +1,13 @@
 import { Checkbox } from "<components>/shared/Checkbox";
-import React, { useState } from "react";
+import React from "react";
 import { FilterList } from "./FilterList";
+import { useStore } from "@data/filters.store";
 
 const FilterButton = () => {
-  const [filters, setFilters] = useState({
-    age: "All",
-    gender: "All",
-  });
+  const { filters, setFilters } = useStore();
 
   const handleFilterChange = (category: string, value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [category]: value,
-    }));
+    setFilters(category, value);
   };
 
   return (
