@@ -1,9 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 :root {
-  --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
@@ -24,7 +23,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
 /* third-party libraries CSS */
 
@@ -36,7 +35,7 @@ body {
 }
 
 .apexcharts-legend-text {
-  @apply !text-body dark:!text-bodydark;
+  @apply !text-body dark:!text-warmGray-800;
 }
 .apexcharts-text {
   @apply !fill-body dark:!fill-bodydark;

@@ -1,5 +1,4 @@
-import { Checkbox } from "<components>/shared/Checkbox";
-import React, { useState } from "react";
+import React from "react";
 import { FilterList } from "./FilterList";
 import { useStore } from "@data/filters.store";
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
@@ -24,14 +23,15 @@ const FilterButton = () => {
   };
   return (
     <div className="dark:bg-gray-800">
-      <div className="relative z-9999 ">
+      <div className="relative z-9999 flex items-center justify-between text-primary first-letter:capitalize mb-4 dark:text-secondary">
         <Datepicker
-          primaryColor={"red"}
+          primaryColor={"blue"}
           value={dates}
           onChange={handleValueChange}
           showShortcuts={true}
         />
       </div>
+
       <div className="relative">
         <div>
           <label className="text-lg font-semibold mb-2 block dark:text-white">
