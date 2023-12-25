@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { data } from "../../data";
-import DialogToShowChar from "<components>/DialogToShowChar";
+import DialogToShowChar, { Product } from "<components>/DialogToShowChar";
 import { generateApexChartSeries } from "../../js/generateApexChartSeries";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -22,7 +22,6 @@ const ChartOne: React.FC = () => {
     }
   };
 
-  var date, products;
 
   const formattedChartData = generateApexChartSeries(data, startDate, endDate);
   console.log({ formattedChartData });
@@ -121,6 +120,10 @@ const ChartOne: React.FC = () => {
   const isWindowAvailable = () => typeof window !== "undefined";
 
   if (!isWindowAvailable()) return <></>;
+
+  const dataaa = formattedChartData.series.find((data) => {
+    return data.name === selectedProduct;
+  });
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
       <div id="chartOne" className="-ml-5 h-[355px] w-[105%]">
@@ -133,15 +136,13 @@ const ChartOne: React.FC = () => {
         />
 
         <DialogToShowChar
-          data={data}
-          startDate={startDate}
-          endDate={endDate}
-          productNames={selectedProduct ? [selectedProduct] : ["a"]}
           modalRef={modalRef}
           dates={formattedChartData.dates}
-          products={formattedChartData.series.find((data) => {
-            return data.name === selectedProduct;
-          })}
+          products={
+            (formattedChartData.series.find(
+              (data) => data.name === selectedProduct && data.data
+            ) as Product) || { name: "", data: [] as (number | null)[] }
+          }
         />
       </div>
     </div>

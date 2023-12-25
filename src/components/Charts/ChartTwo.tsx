@@ -15,7 +15,10 @@ interface ChartOneState {
 
 interface ChartTwoProps {
   dates: Date[];
-  products: any;
+  products: {
+    name: string;
+    data: number[];
+  };
 }
 
 const ChartTwo: React.FC<ChartTwoProps> = ({ dates, products }) => {

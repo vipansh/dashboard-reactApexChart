@@ -2,13 +2,22 @@ import React from "react";
 import { DataType } from "../data";
 import ChartTwo from "./Charts/ChartTwo";
 
-type Props = {
+export interface Product {
+  name: string;
+  data: number[];
+}
+
+interface DialogToShowCharProps {
   modalRef: React.MutableRefObject<null>;
   dates: Date[];
-  products: any;
-};
+  products: Product;
+}
 
-const DialogToShowChar = ({ modalRef, dates, products }: Props) => {
+const DialogToShowChar = ({
+  modalRef,
+  dates,
+  products,
+}: DialogToShowCharProps) => {
   return (
     <>
       <dialog
